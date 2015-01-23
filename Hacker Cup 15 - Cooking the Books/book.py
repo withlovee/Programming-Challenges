@@ -1,32 +1,41 @@
-def cal(input):
-	original = int(input)
-	num = original
-	n = len(str(num))
-	number_array = []
-	maxx = -1
-	maxx_index = -1
-	for i in range(0,n) :
-		temp = (num/10)*10
-		x = num-temp
-		number_array.append(x)
-		if(x > maxx):
-			maxx = x
-			maxx_index = i
-		num = num/10
-	# print number_array
-	if(maxx_index == n-1):
-		output_max = str(original)
-	else:
-		output_max = ""
-		for i in range(n-1,-1,-1):
-			if maxx_index == i:
-				output_max = output_max+str(number_array[n-1])
-			elif i == n-1:
-				output_max = output_max+str(number_array[maxx_index])
-			else:
-				output_max = output_max+str(number_array[i])
-		print output_max
+class Book:
 
-n = input('number of test cases:')
+	def __init__(self, number):
+		self.input_number = str(number) # e.g. '12345'
+		self.length = len(self.input_number) # e.g. 5
+		self.digit_array = self.convert_to_digit_array() # e.g. [1, 2, 3, 4, 5]
+		self.max_digit, self.max_digit_index = self.get_max_digit() # e.g. 5, 4
+		self.output_digit_array = self.cook_it() # e.g. [5, 2, 3, 4, 1]
+		self.output_number = self.merge() # e.g. 52341
+		print self.output_number
+
+	def convert_to_digit_array(self):
+		output = []
+		for i in range(0, self.length):
+			output.append(int(self.input_number[i]))
+		return output
+
+	def get_max_digit(self):
+		maxx = -1
+		maxx_index = -1
+		for i, number in enumerate(self.digit_array):
+			if(number > maxx):
+				maxx = number
+				maxx_index = i
+		return maxx, maxx_index
+
+	def cook_it(self):
+		output = list(self.digit_array)
+		if(self.max_digit != self.digit_array[0]):
+			output[0], output[self.max_digit_index] = self.digit_array[self.max_digit_index], self.digit_array[0]
+		return output
+
+	def merge(self):
+		return ''.join(str(x) for x in self.output_digit_array)
+
+
+n = input('number of test cases: ')
 for i in range(0, int(n)):
-	cal(input())
+	num = input()
+	print 'Case #'+str(i+1)+':',
+	Book(num)
