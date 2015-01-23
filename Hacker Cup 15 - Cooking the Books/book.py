@@ -4,10 +4,8 @@ class Book:
 		self.input_number = str(number) # e.g. '12345'
 		self.length = len(self.input_number) # e.g. 5
 		self.digit_array = self.convert_to_digit_array() # e.g. [1, 2, 3, 4, 5]
-		self.max_digit, self.max_digit_index = self.get_max_digit() # e.g. 5, 4
-		self.output_digit_array = self.cook_it() # e.g. [5, 2, 3, 4, 1]
-		self.output_number = self.merge() # e.g. 52341
-		print self.output_number
+		self.cooked_max_number = self.cook_max() # e.g. 52341
+		print self.cooked_max_number
 
 	def convert_to_digit_array(self):
 		output = []
@@ -24,14 +22,19 @@ class Book:
 				maxx_index = i
 		return maxx, maxx_index
 
-	def cook_it(self):
+	def cook_max(self):
+		max_digit, max_digit_index = self.get_max_digit() # e.g. 5, 4
+		output_digit_array = self.swap_max_digit(max_digit, max_digit_index) # e.g. [5, 2, 3, 4, 1]
+		return self.merge(output_digit_array) # e.g. 52341
+
+	def swap_max_digit(self, max_digit, max_digit_index):
 		output = list(self.digit_array)
-		if(self.max_digit != self.digit_array[0]):
-			output[0], output[self.max_digit_index] = self.digit_array[self.max_digit_index], self.digit_array[0]
+		if(max_digit != self.digit_array[0]):
+			output[0], output[max_digit_index] = self.digit_array[max_digit_index], self.digit_array[0]
 		return output
 
-	def merge(self):
-		return ''.join(str(x) for x in self.output_digit_array)
+	def merge(self, digit_array):
+		return ''.join(str(x) for x in digit_array)
 
 
 n = input('number of test cases: ')
