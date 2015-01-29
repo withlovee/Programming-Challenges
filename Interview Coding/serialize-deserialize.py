@@ -1,6 +1,6 @@
 def serialize(input_array):
 	output = ""
-	for word in input_words:
+	for word in input_array:
 		for c in word:
 			if(c == "%"):
 				output = output + "%5"
@@ -42,7 +42,8 @@ while(input_text != 'end'):
 # print input_words
 
 serialized_text = serialize(input_words)
-# print serialized_text
+
+print serialized_text
 
 print deserialize(serialized_text)
 
