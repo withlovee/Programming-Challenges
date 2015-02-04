@@ -1,4 +1,22 @@
-
+# FROM @nuttt
+# https://gist.github.com/nuttt/67003b5e7c7eba133bd7
+# build a binary tree class (with no repeat element in tree)
+# with following APIs
+# - new()
+# - addnode(int a)
+# --- return true if a is not already in binary tree
+# --- otherwise return false
+# - removenode(int a)
+# --- return true if a is removed in binary tree
+# --- return false if otherwise
+# - depth(int a)
+# --- return integer repesents depth of a in binary tree
+# --- return null if a is not in binary tree
+# - isInBinaryTree(int a)
+# - preorder()
+# --- return array of integer representing preorder traversal of tree
+# - inorder()
+# - postorder()
 
 class Node:
 	def __init__(self, val):
@@ -22,13 +40,13 @@ class BST:
 				root.left_child = Node(val)
 				return True
 			else:
-				self.insert_recursive(root.left_child, val)
+				return self.insert_recursive(root.left_child, val)
 		elif(val > root.value):
 			if(root.right_child == None):
 				root.right_child = Node(val)
 				return True
 			else:
-				self.insert_recursive(root.right_child, val)
+				return self.insert_recursive(root.right_child, val)
 		else:
 			return False
 
@@ -45,13 +63,52 @@ class BST:
 		else:
 			return self.get_node_recursive(root.right_child, val)
 
+	def get_parent_node(self, val):
+		if(self.root.value == val):
+			pass
+		return self.get_parent_node_recursive(self.root, val)
+
+	def get_parent_node_recursive(self, root, val):
+		if(root == None):
+			return None
+		if(root.left_child != None and root.left_child.value == val):
+			return root
+		if(root.right_child != None and root.right_child.value == val):
+			return root
+		if(val < root.value):
+			return self.get_node_recursive(root.left_child, val)
+		else:
+			return self.get_node_recursive(root.right_child, val)
+
 	def remove(self, val):
-		remove_node = self.get_node(val)
-		if(remove_node == None):
+		parent_node = self.get_parent_node(val)
+		if(parent_node == None):
 			return False
-		if(remove_node.left_child == None and remove_node.right_child == None):
-			remove_node = None
-		print self.inorder()
+		if(parent_node.left_child != None and parent_node.left_child.value == val):
+			parent_node.left_child = remove_node(parent_node.left_child)
+		if(parent_node.right_child != None and parent_node.right_child.value == val):
+			parent_node.right_child = remove_node(parent_node.right_child)
+		# print self.inorder()
+
+	def remove_node(self, node):
+		if(node == None):
+			return None
+		if(node.right_child == None and node.left_child == None):
+			return None
+		if(node.right_child == None and node.left_child != None):
+			return node.left_child
+		if(node.right_child != None and node.left_child == None):
+			return node.right_child
+		return get_replace_node(node.left_child)
+
+	def get_replace_node(self, node):
+		if(node == None):
+			return None
+		replace_node = get_replace_node(node.right_child)
+		if(replace_node == None):
+			return node
+		else:
+			return replace_node
 
 	def inorder(self):
 		output = []
