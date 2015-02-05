@@ -85,10 +85,10 @@ class BST:
 		if(parent_node == None):
 			return False
 		if(parent_node.left_child != None and parent_node.left_child.value == val):
-			parent_node.left_child = remove_node(parent_node.left_child)
+			parent_node.left_child = self.remove_node(parent_node.left_child)
 		if(parent_node.right_child != None and parent_node.right_child.value == val):
-			parent_node.right_child = remove_node(parent_node.right_child)
-		# print self.inorder()
+			parent_node.right_child = self.remove_node(parent_node.right_child)
+		print self.inorder()
 
 	def remove_node(self, node):
 		if(node == None):
@@ -99,12 +99,12 @@ class BST:
 			return node.left_child
 		if(node.right_child != None and node.left_child == None):
 			return node.right_child
-		return get_replace_node(node.left_child)
+		return self.get_replace_node(node.left_child)
 
 	def get_replace_node(self, node):
 		if(node == None):
 			return None
-		replace_node = get_replace_node(node.right_child)
+		replace_node = self.get_replace_node(node.right_child)
 		if(replace_node == None):
 			return node
 		else:
